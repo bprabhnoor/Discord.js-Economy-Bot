@@ -9,8 +9,11 @@ const { token } = require("./config.json");
 // Using old discord.js
 const client = new Discord.Client();
 
+//Choices To Be Made By User
 // Prefix
 const prefix = "//";
+// The folder name for where userdata will be stored
+const userdata = "userdata" + "/";
 
 // Maybe add better notifcation on server upon startup
 client.once("ready", () => {
@@ -40,7 +43,7 @@ client.on("message", (message) => {
 
   // Check if user has a profile
   function checkprofile() {
-    fs.access("users/" + message.member.id, (err) => {
+    fs.access(userdata + message.member.id, (err) => {
       if (err) {
         console.log(err);
         createprofile();
@@ -51,7 +54,7 @@ client.on("message", (message) => {
   // Create a new profile
   function createprofile() {
     var profile = "Name: message.author, Balance: 0, Inventory: Empty";
-    fs.writeFile("users/" + message.member.id, profile, (err) => {
+    fs.writeFile(userdata + message.member.id, profile, (err) => {
       if (err) {
         console.log(err);
       } else {
@@ -64,7 +67,7 @@ client.on("message", (message) => {
   switch (command) {
     case "stats":
       // Reads user txt file
-      fs.readFile("users/" + message.member.id, (err, data) => {
+      fs.readFile(userdata + message.member.id, (err, data) => {
         if (err) {
           message.reply("Profile Error. Please contact Paul.");
           console.log(err);
